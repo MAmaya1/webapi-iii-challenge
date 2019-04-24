@@ -58,4 +58,19 @@ router.post('/', (req, res) => {
         })
 })
 
+// PUT (update user)
+
+router.put('/:id', (req, res) => {
+    const userId = req.params.id;
+    const updatedUser = req.body;
+
+    db.update(userId, updatedUser)
+        .then(user => {
+            res.status(201).json(user)
+        })
+        .catch(err => {
+            res.status(500).json({ error: err, message: 'Could not update user.' })
+        })
+})
+
 module.exports = router;
