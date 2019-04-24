@@ -48,4 +48,23 @@ router.post('/', (req, res) => {
         })
 })
 
+// PUT (edit post)
+
+router.put('/:id', (req, res) => {
+    const postId = req.params.id;
+    const updatedPost = req.body;
+
+    if (!updatedPost.text) {
+        res.status(400).json({ errorMessage: 'Your post needs text!' })
+    }
+
+    db.update(postId, updatedPost)
+        .then(post => {
+            res.status(201).json(post)
+        })
+        .catch(err => {
+            res.status(500).json({ error: err, message: 'Could not update post.' })
+        })
+})
+
 module.exports = router;
