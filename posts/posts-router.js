@@ -67,4 +67,18 @@ router.put('/:id', (req, res) => {
         })
 })
 
+// DELETE post
+
+router.delete('/:id', (req, res) => {
+    const postId = req.params.id;
+
+    db.remove(postId)
+        .then(() => {
+            res.status(200).end();
+        })
+        .catch(err => {
+            res.status(500).json({ error: err, message: 'This post could not be deleted.' })
+        })
+})
+
 module.exports = router;
