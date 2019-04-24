@@ -49,6 +49,10 @@ router.get('/:id/posts', (req, res) => {
 router.post('/', (req, res) => {
     const newUser = req.body;
 
+    if (!newUser.name) {
+        res.status(400).json({ errorMessage: 'Your user needs a name.' })
+    }
+
     db.insert(newUser)
         .then(user => {
             res.status(201).json(user)
@@ -64,12 +68,19 @@ router.put('/:id', (req, res) => {
     const userId = req.params.id;
     const updatedUser = req.body;
 
-    db.update(userId, updatedUser)
+    db.getById(userId)
         .then(user => {
-            res.status(201).json(user)
-        })
-        .catch(err => {
-            res.status(500).json({ error: err, message: 'Could not update user.' })
+            if (user) {
+                db.update(userId, updatedUser)
+                    .then(user => {
+                        res.status(201).json(user)
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'Could not update user.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A user with that ID could not be found.' })
+            }
         })
 })
 
@@ -78,12 +89,19 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const userId = req.params.id;
 
-    db.remove(userId)
-        .then(() => {
-            res.status(200).end();
-        })
-        .catch(err => {
-            res.status(500).json({ error: err, message: 'This user could not be deleted.' })
+    db.getById(userId)
+        .then(user => {
+            if (user) {
+                db.remove(userId)
+                    .then(() => {
+                        res.status(200).end();
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'This user could not be deleted.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A user with that ID does not exist.' })
+            }
         })
 })
 

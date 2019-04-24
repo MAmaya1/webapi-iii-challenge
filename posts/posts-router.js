@@ -58,12 +58,19 @@ router.put('/:id', (req, res) => {
         res.status(400).json({ errorMessage: 'Your post needs text!' })
     }
 
-    db.update(postId, updatedPost)
+    db.getById(postId)
         .then(post => {
-            res.status(201).json(post)
-        })
-        .catch(err => {
-            res.status(500).json({ error: err, message: 'Could not update post.' })
+            if (post) {
+                db.update(postId, updatedPost)
+                    .then(post => {
+                        res.status(201).json(post)
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'Could not update post.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A post with that ID does not exist' })
+            }
         })
 })
 
@@ -72,12 +79,19 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
     const postId = req.params.id;
 
-    db.remove(postId)
-        .then(() => {
-            res.status(200).end();
-        })
-        .catch(err => {
-            res.status(500).json({ error: err, message: 'This post could not be deleted.' })
+    db.getById(postId)
+        .then(post => {
+            if (post) {
+                db.remove(postId)
+                    .then(() => {
+                        res.status(200).end();
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'This post could not be deleted.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A post with that ID does not exist.' })
+            }
         })
 })
 
