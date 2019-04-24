@@ -2,7 +2,10 @@ const express = require('express');
 
 const server = express();
 
+// Import Routers
+
 const usersRouter = require('./users/users-router');
+const postsRouter = require('./posts/posts-router');
 
 // Global Middleware
 
@@ -15,5 +18,6 @@ server.get('/', (req, res) => {
 })
 
 server.use('/api/users', usersRouter);
+server.use('/api/posts', postsRouter);
 
 module.exports = server;
