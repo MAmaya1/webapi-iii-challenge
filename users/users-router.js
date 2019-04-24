@@ -4,6 +4,18 @@ const db = require('../data/helpers/userDb');
 
 const router = express.Router();
 
+// Custom Middleware
+
+function caseChecker(req, res, next) {
+    const userName = req.body.name;
+
+    if (userName) {
+        req.body.name = userName.charAt(0).toUpperCase() + userName.slice(1);
+    }
+
+    next();
+}
+
 // GET users
 
 router.get('/', (req, res) => {
@@ -46,7 +58,7 @@ router.get('/:id/posts', (req, res) => {
 
 // POST (add new user)
 
-router.post('/', (req, res) => {
+router.post('/', caseChecker, (req, res) => {
     const newUser = req.body;
 
     if (!newUser.name) {
@@ -64,7 +76,7 @@ router.post('/', (req, res) => {
 
 // PUT (update user)
 
-router.put('/:id', (req, res) => {
+router.put('/:id', caseChecker, (req, res) => {
     const userId = req.params.id;
     const updatedUser = req.body;
 
