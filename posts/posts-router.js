@@ -16,4 +16,36 @@ router.get('/', (req, res) => {
         })
 })
 
+// GET post by ID
+
+router.get('/:id', (req, res) => {
+    const postId = req.params.id;
+
+    db.getById(postId)
+        .then(post => {
+            res.status(201).json(post)
+        })
+        .catch(err => {
+            res.status(404).json({ error: err, message: 'The post with the specified ID does not exist.' })
+        })
+})
+
+// POST (add new post)
+
+router.post('/', (req, res) => {
+    const newPost = req.body;
+
+    if (!newPost.text) {
+        res.status(400).json({ errorMessage: 'Your post needs some text.' })
+    }
+
+    db.insert(newPost)
+        .then(post => {
+            res.status(201).json(post)
+        })
+        .catch(err => {
+            res.status(500).json({ error: err, message: 'Could not add new post.' })
+        })
+})
+
 module.exports = router;
