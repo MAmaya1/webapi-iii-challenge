@@ -10,7 +10,7 @@ function caseChecker(req, res, next) {
     const userName = req.body.name;
 
     if (userName) {
-        req.body.name = userName.charAt(0).toUpperCase() + userName.slice(1);
+        req.body.name = userName[0].toUpperCase() + userName.slice(1);
     }
 
     next();
