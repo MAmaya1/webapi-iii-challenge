@@ -19,6 +19,8 @@ const UserCard = styled.div`
     }
 `
 
+// User Component
+
 const User = props => {
     return (
         <UserCard>
