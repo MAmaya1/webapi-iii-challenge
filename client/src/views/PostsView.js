@@ -16,7 +16,18 @@ class PostsView extends React.Component {
         return (
             <div className="posts-view-container">
                 <h3>Posts</h3>
-                <PostPage posts={this.props.posts}/>
+                {this.props.loadingPosts && (
+                    <p>Loading posts...</p>
+                )}
+                {this.props.posts && (
+                    <PostPage posts={this.props.posts}/>
+                )}
+                {this.props.posts.length === 0 && (
+                    <p>This user does not have any posts.</p>
+                )}
+                {this.props.loadingPostsErr && (
+                    <p>{this.props.loadingPostsErr}</p>
+                )}
             </div>
         )
     }
