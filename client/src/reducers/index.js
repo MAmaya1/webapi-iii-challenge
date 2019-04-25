@@ -3,7 +3,10 @@
 import {
     GET_USERS_START,
     GET_USERS_SUCCESS,
-    GET_USERS_FAILURE    
+    GET_USERS_FAILURE,
+    GET_USER_POSTS_START,
+    GET_USER_POSTS_SUCCESS,
+    GET_USER_POSTS_FAILURE
 } from '../actions';
 
 // Set Initial State
@@ -12,7 +15,9 @@ const initialState = {
     users: [],
     posts: [],
     loadingUsers: false,
-    loadingUsersErr: null
+    loadingUsersErr: null,
+    loadingPosts: false,
+    loadingPostsErr: null
 }
 
 function reducer(state = initialState, action) {
@@ -38,6 +43,29 @@ function reducer(state = initialState, action) {
                 loadingUsers: false,
                 loadingUsersErr: action.payload
             }
+
+        case GET_USER_POSTS_START:
+            return {
+                ...state,
+                loadingPosts: true,
+                loadingPostsErr: null
+            }
+
+        case GET_USER_POSTS_SUCCESS:
+            return {
+                ...state,
+                loadingPosts: false,
+                loadingPostsErr: null,
+                posts: action.payload
+            }
+
+        case GET_USER_POSTS_FAILURE:
+            return {
+                ...state,
+                loadingPosts: false,
+                loadingPostsErr: action.payload
+            }
+            
         default: 
             return state;
     }

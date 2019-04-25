@@ -33,7 +33,9 @@ const mapStateToProps = state => {
     return {
         users: state.users,
         loadingUsers: state.loadingUsers,
-        loadingUsersErr: state.loadingUsersErr
+        loadingUsersErr: state.loadingUsersErr,
+        posts: state.posts,
+        
     }
 }
 
