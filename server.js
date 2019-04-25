@@ -16,7 +16,7 @@ server.use(cors());
 // Configure Routes
 
 server.get('/', (req, res) => {
-    res.send('Hi there!');
+    res.json({message: process.env.MOTD });
 })
 
 server.use('/api/users', usersRouter);
