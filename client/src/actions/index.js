@@ -10,7 +10,7 @@ export const GET_USERS_FAILURE = 'GET_USERS_FAILURE';
 
 export const getUsers = () => dispatch => {
     dispatch({ type: GET_USERS_START });
-        axios.get('localhost:5000/api/users')
+        axios.get('http://localhost:5000/api/users')
             .then(res => {
                 dispatch({
                     type: GET_USERS_SUCCESS,

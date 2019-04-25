@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 
 const server = express();
 
@@ -10,6 +11,7 @@ const postsRouter = require('./posts/posts-router');
 // Global Middleware
 
 server.use(express.json());
+server.use(cors());
 
 // Configure Routes
 
