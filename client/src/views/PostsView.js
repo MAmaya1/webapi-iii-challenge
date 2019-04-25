@@ -22,7 +22,7 @@ class PostsView extends React.Component {
                 {this.props.posts && (
                     <PostPage posts={this.props.posts}/>
                 )}
-                {this.props.posts.length === 0 && (
+                {!this.props.posts.length && (
                     <p>This user does not have any posts.</p>
                 )}
                 {this.props.loadingPostsErr && (

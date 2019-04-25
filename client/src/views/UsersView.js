@@ -5,6 +5,24 @@ import UsersList from '../components/UsersList';
 
 import {getUsers} from '../actions';
 
+import styled from 'styled-components';
+
+// Styled Components
+
+const Heading = styled.h1`
+    text-align: center;
+    margin: 0;
+`
+
+const UsersViewWrapper = styled.div`
+    max-width: 700px;
+    margin: auto;
+    padding: 30px 50px;
+    background: white;
+`
+
+// UsersView Component Constructor
+
 class UsersView extends React.Component {
     
     componentDidMount() {
@@ -13,8 +31,8 @@ class UsersView extends React.Component {
 
     render() {
         return (
-            <div className="users-view-container">
-                <h1>Users</h1>
+            <UsersViewWrapper>
+                <Heading>Users</Heading>
                 {this.props.loadingUsers && (
                     <p>Loading users...</p>
                 )}
@@ -24,7 +42,7 @@ class UsersView extends React.Component {
                 {this.props.loadingUsersErr && (
                     <p>{this.props.loadingUsersErr}</p>
                 )}
-            </div>
+            </UsersViewWrapper>
         )
     }
 }

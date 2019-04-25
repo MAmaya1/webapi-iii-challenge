@@ -9,7 +9,14 @@ const UserCard = styled.div`
     margin: 20px auto;
     padding: 10px;
     height: 80px;
-    width: 200px;
+    width: 100%;
+    border-radius: 10px;
+    color: black;
+
+    :hover {
+        background: lightgreen;
+        transition: all 200ms ease;
+    }
 `
 
 const User = props => {
