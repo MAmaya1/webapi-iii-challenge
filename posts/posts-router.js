@@ -23,10 +23,17 @@ router.get('/:id', (req, res) => {
 
     db.getById(postId)
         .then(post => {
-            res.status(201).json(post)
-        })
-        .catch(err => {
-            res.status(404).json({ error: err, message: 'The post with the specified ID does not exist.' })
+            if (post) {
+                db.getById(postId)
+                    .then(post => {
+                        res.status(201).json(post)
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'Could not retrieve post' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A post with the specified ID does not exist.' })
+            }
         })
 })
 
@@ -35,8 +42,8 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const newPost = req.body;
 
-    if (!newPost.text) {
-        res.status(400).json({ errorMessage: 'Your post needs some text.' })
+    if (!newPost.text || !newPost.id) {
+        res.status(400).json({ errorMessage: 'Your post needs some text and a user_id.' })
     }
 
     db.insert(newPost)

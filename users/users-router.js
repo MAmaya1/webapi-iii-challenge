@@ -35,10 +35,17 @@ router.get('/:id', (req, res) => {
 
     db.getById(userId)
         .then(user => {
-            res.status(201).json(user)
-        })
-        .catch(err => {
-            res.status(404).json({ error: err, message: 'The user with the specified ID does not exist' })
+            if (user) {
+                db.getById(userId)
+                    .then(user => {
+                        res.status(201).json(user)
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'Could not retrieve user information.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A user with the specified ID does not exist.'  })
+            }
         })
 })
 
@@ -47,12 +54,19 @@ router.get('/:id', (req, res) => {
 router.get('/:id/posts', (req, res) => {
     const userId = req.params.id;
 
-    db.getUserPosts(userId)
-        .then(posts => {
-            res.status(201).json(posts)
-        })
-        .catch(err => {
-            res.status(404).json({ error: err, message: 'Cannot retrieve posts.' })
+    db.getById(userId)
+        .then(user => {
+            if (user) {
+                db.getUserPosts(userId)
+                    .then(posts => {
+                        res.status(201).json(posts)
+                    })
+                    .catch(err => {
+                        res.status(404).json({ error: err, message: 'Cannot retrieve user posts.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'A user with the specified ID does not exist.' })
+            }
         })
 })
 
