@@ -42,7 +42,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     const newPost = req.body;
 
-    if (!newPost.text || !newPost.id) {
+    if (!newPost.text || !newPost.user_id) {
         res.status(400).json({ errorMessage: 'Your post needs some text and a user_id.' })
     }
 
