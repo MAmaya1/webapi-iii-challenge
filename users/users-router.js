@@ -62,7 +62,7 @@ router.get('/:id/posts', (req, res) => {
                         res.status(201).json(posts)
                     })
                     .catch(err => {
-                        res.status(404).json({ error: err, message: 'Cannot retrieve user posts.' })
+                        res.status(500).json({ error: err, message: 'Cannot retrieve user posts.' })
                     })
             } else {
                 res.status(404).json({ errorMessage: 'A user with the specified ID does not exist.' })
