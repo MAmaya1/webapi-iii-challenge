@@ -1,6 +1,7 @@
 const express = require('express');
 
 const db = require('../data/helpers/postDb');
+const usersDB = require('../data/helpers/userDb');
 
 const router = express.Router();
 
@@ -46,12 +47,19 @@ router.post('/', (req, res) => {
         res.status(400).json({ errorMessage: 'Your post needs some text and a user_id.' })
     }
 
-    db.insert(newPost)
-        .then(post => {
-            res.status(201).json(post)
-        })
-        .catch(err => {
-            res.status(500).json({ error: err, message: 'Could not add new post.' })
+    usersDB.getById(newPost.user_id)
+        .then(user => {
+            if (user) {
+                db.insert(newPost)
+                    .then(post => {
+                        res.status(201).json(post)
+                    })
+                    .catch(err => {
+                        res.status(500).json({ error: err, message: 'Could not add new post.' })
+                    })
+            } else {
+                res.status(404).json({ errorMessage: 'Your post must belong to a valid user.' })
+            }
         })
 })
 
